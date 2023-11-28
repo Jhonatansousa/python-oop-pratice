@@ -1,19 +1,24 @@
 #criando uma classe
+from datetime import date
 class Pessoa:
-  def __init__(self, nome, idade, endereco):
+  def __init__(self, nome, ano_nas, endereco):
     self.nome = nome
-    self.idade = idade
+    self.ano_nas = ano_nas
     self.endereco = endereco
   
   def apresentar(self):
-    print(f'{self.nome} tem {self.idade} ano(s)!')
+    print(f'{self.nome} tem {self.ano_nas} ano(s)!')
     self.endereco.apresentar_endereco()
+
+  @staticmethod
+  def idade(ano_nas):
+    return date.today().year - ano_nas
 
 #criando uma Herança
 
 class Aluno(Pessoa):
-  def __init__(self, nome, idade, matricula):
-    super().__init__(nome, idade)
+  def __init__(self, nome, ano_nas, matricula):
+    super().__init__(nome, ano_nas)
     self.matricula = matricula
 
   def apresentar_aluno(self):
@@ -36,3 +41,7 @@ class Endereco:
 end = Endereco('rua 1', 'angra dos reis', 2390000)
 pessoa1 = Pessoa('jhonatan', 27, end)
 pessoa1.apresentar()
+
+pessoa3 = Pessoa.idade(1996)
+
+print(pessoa3)
