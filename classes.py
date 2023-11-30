@@ -1,39 +1,50 @@
-#criando uma classe
-from datetime import date
-class Pessoa:
-  def __init__(self, nome, ano_nas, endereco):
-    self.nome = nome
-    self.ano_nas = ano_nas
-    self.endereco = endereco
-  
-  def apresentar(self):
-    self.endereco.apresentar_endereco()
-  #método estático
-  @staticmethod
-  def idade(ano_nas):
-    return date.today().year - ano_nas
-
-#criando uma Herança
-
-class Aluno(Pessoa):
-  def __init__(self, nome, ano_nas, matricula):
-    super().__init__(nome, ano_nas)
-    self.matricula = matricula
-
-  def apresentar_aluno(self):
-    super().apresentar()
-    print(f'e a matrícula é: {self.matricula}')
-
-#criando uma Agregação
 
 class Endereco:
-  def __init__(self, rua, cidade, cep):
+  def __init__(self, cep, rua, cidade):
+    self.cep = cep
     self.rua = rua
     self.cidade = cidade
-    self.cep = cep
+    
+#a classe endereço está agregada à classe Cliente(endereco entra nos parametros da instância de cliente)
+class Cliente:
+  def __init__(self, cpf, nome, endereco):
+    self.cpf = cpf
+    self.nome = nome
+    self.endereco = endereco
+#a classe Cliente está agregada à classe Conta (ela entra nos parâmetros da instância)
+class Conta:
+  def __init__(self,clientes, numero, saldo = 0.0):
+    self.clientes = clientes
+    self.numero = numero
+    self.saldo = saldo
+    #a linha abaixo é onde fiz uma composição (Extrato())
+    self.transacoes = Extrato()
+  def depositar(self, valor):
+    if valor > 0:
+      self.saldo += valor
+      return f'Depósito concluído, saldo total da conta: R${self.saldo}'
+      
+  def sacar(self, valor):
+    if valor < self.saldo:
+      self.saldo -= valor
+      return f'Saque no valor de R${valor} concluído, saldo atual de: R${self.saldo}'
+    
+    else:
+      return 'Saldo insuficiente'
 
-  def apresentar_endereco(self):
+  def transferir(self, contaDestino, valor):
+    if valor < self.saldo and valor > 0:
+      contaDestino.depositar(valor)
+      self.saldo -= valor
+      return 'transferência concluída!'
+    else:
+      return 'Saldo insuficiente!'
 
-    print(f'endereco é rua: {self.rua} da cidade de: {self.cidade} e cep: {self.cep}')
 
+class Extrato:
+  def __init__(self):
+    self.transacoes = []
 
+  def extrato(self):
+    for movimentacao in self.transacoes:
+      print(f'')
