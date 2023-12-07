@@ -20,7 +20,7 @@ class Conta:
     self._clientes = clientes
     self.__numeroConta = numeroConta
     self.__saldo = saldo
-    #a linha abaixo é onde fiz uma composição (Historico())
+    #a linha abaixo é onde fiz uma composição instanciando Historico dentro de Conta (Historico())
     self._historico = Historico ()
     Conta._quantidadeContas += 1
 
@@ -36,7 +36,7 @@ class Conta:
       return f'Depósito concluído, saldo total da conta: R${self.__saldo}'
 
       
-  def sacar(self, valor):
+  def _sacar(self, valor):
     if valor < self.__saldo:
       self.__saldo -= valor
       self._historico.transacoes.append(['SAQUE', valor, 'DATA', dataAtual])
@@ -46,7 +46,7 @@ class Conta:
       return 'Saldo insuficiente'
   
   
-  def transferir(self, contaDestino, valor):
+  def _transferir(self, contaDestino, valor):
     if valor < self.__saldo and valor > 0:
       contaDestino._depositar(valor)
       self.__saldo -= valor
@@ -60,7 +60,7 @@ class Historico:
   def __init__(self):
     self.transacoes = []
 
-  def extrato(self):
+  def _extrato(self):
     for itemTransacao in self.transacoes:
       #"{:,.2f}".format = formatação de string usando vírgula como separador de milhar e o 2f == 2 casas decimais(float)
       print(f'{itemTransacao[0]}: R${"{:,.2f}".format(itemTransacao[1])} | {itemTransacao[2]}: {itemTransacao[3]}')

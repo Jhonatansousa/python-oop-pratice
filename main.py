@@ -11,7 +11,7 @@ conta2 = Conta(cliente2, 2, 50)
 
 def sacarValor(conta, valor):
   
-  conta.sacar(valor)
+  conta._sacar(valor)
   print(conta.saldo)
   
 def depositarValor(conta, valor):
@@ -21,14 +21,14 @@ def depositarValor(conta, valor):
 
 def transferirValor(contaRementente, contaDestinataria, valor):
   if contaRementente.saldo >= valor:
-    contaRementente.transferir(contaDestinataria, valor)
+    contaRementente._transferir(contaDestinataria, valor)
     #linha abaixo apenas para controle e verificação do saldo das contas
     print(contaRementente.saldo, contaDestinataria.saldo)
   else:
     print('Saldo insuficiente para realizar a transferêcia')
 
 def consultarExtrato(conta):
-  return conta._historico.extrato()
+  return conta._historico._extrato()
 
 if __name__ == '__main__':
   sacarValor(conta1, 19)
