@@ -10,11 +10,12 @@ cliente2 = Cliente(2, 'segundo', 'rua 2')
 conta2 = Conta(cliente2, 2, 50)
 
 def sacarValor(conta, valor):
+  
   conta.sacar(valor)
   print(conta.saldo)
   
 def depositarValor(conta, valor):
-  conta.depositar(valor)
+  conta._depositar(valor)
   print(conta.saldo)
 
 
@@ -27,10 +28,11 @@ def transferirValor(contaRementente, contaDestinataria, valor):
     print('Saldo insuficiente para realizar a transferêcia')
 
 def consultarExtrato(conta):
-  return conta.historico.extrato()
+  return conta._historico.extrato()
 
 if __name__ == '__main__':
   sacarValor(conta1, 19)
   depositarValor(conta1, 2333)
   transferirValor(conta1, conta2, 52)  
   consultarExtrato(conta1)
+  print(Conta._quantidadeContas)
