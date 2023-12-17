@@ -18,7 +18,7 @@ class Conta:
   _quantidadeContas = 0
   def __init__(self,clientes, numeroConta, saldo = 0.00):
     self._clientes = clientes
-    self.__numeroConta = numeroConta
+    self._numeroConta = numeroConta
     self.__saldo = saldo
     #a linha abaixo é onde fiz uma composição instanciando Historico dentro de Conta (Historico())
     self._historico = Historico ()
@@ -65,3 +65,42 @@ class Historico:
       #"{:,.2f}".format = formatação de string usando vírgula como separador de milhar e o 2f == 2 casas decimais(float)
       print(f'{itemTransacao[0]}: R${"{:,.2f}".format(itemTransacao[1])} | {itemTransacao[2]}: {itemTransacao[3]}')
       
+
+class RendimentoPoupanca:
+  def __init__(self, taxaSelic, taxaReferencialMensal):
+    self.taxaSelic = taxaSelic / 100
+    self.taxaReferencialMensal = taxaReferencialMensal / 100
+
+  def calcularTaxaRemuneracao(self):
+    if self.taxaSelic <= (8.5 / 100):
+      taxaRemuneracao = (self.taxaSelic * 0.7) + self.taxaReferencialMensal
+      return taxaRemuneracao
+    taxaRemuneracao = 0.005 + self.taxaReferencialMensal
+    return taxaRemuneracao
+
+class Poupanca:
+  def __init__(self, taxaRemuneracaoMes, statusConta = False, saldoPoupanca = 0.00):
+    self.taxaRemuneracaoMes = taxaRemuneracaoMes
+    self.saldoPoupanca  = saldoPoupanca
+    self.statusConta = statusConta
+    self.rendimentoPoupanca = RendimentoPoupanca ()
+
+def abrirContaPoupanca(self):
+  self.statusConta = True
+  return self.statusConta
+
+class ContaRemuneradaPoupanca(Conta, Poupanca):
+  def __init__(self, clientes, numeroConta, saldo, taxaRemuneracaoMes, saldoPoupanca, statusConta, dataAbertura):
+    Conta.__init__(self, clientes, numeroConta, saldo)
+    Poupanca.__init__(self, taxaRemuneracaoMes, saldoPoupanca, statusConta)
+    self.dataAbertura = dataAbertura
+
+  def remunerarConta(self):
+    self.saldoPoupanca += self.saldoPoupanca * (self.taxaRemuneracaoMes / 30)
+    self.saldoPoupanca -= self.taxaRemuneracaoMes
+
+  def resgatar(self):
+    pass
+
+  def aplicar(self):
+    pass
